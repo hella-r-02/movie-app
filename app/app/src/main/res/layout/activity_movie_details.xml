@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="395dp" />
+            app:layout_constraintGuide_begin="16dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_guideline_end"
@@ -66,11 +66,11 @@
                 android:id="@+id/tv_pg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:fontFamily="@font/roboto_black"
                 android:gravity="center"
                 android:text="@string/pg"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                android:textSize="12sp" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -78,6 +78,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="254dp"
+            android:fontFamily="@font/roboto_black"
             android:gravity="center_vertical"
             android:letterSpacing="-0.01"
             android:lineSpacingExtra="-7sp"
@@ -88,7 +89,6 @@
             android:text="@string/movie_name"
             android:textColor="@color/movie_name_color"
             android:textSize="40sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/gl_guideline_end"
             app:layout_constraintStart_toEndOf="@+id/gl_guideline_start"
             app:layout_constraintTop_toTopOf="parent" />
@@ -97,6 +97,7 @@
             android:id="@+id/tv_genre"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
             android:text="@string/genre"
             android:textColor="@color/genre_text_color"
             android:textSize="14sp"
@@ -158,10 +159,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="9dp"
+            android:fontFamily="@font/roboto_black"
             android:text="@string/review"
             android:textColor="@color/review_text_color"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/iv_star_5"
             app:layout_constraintTop_toBottomOf="@id/tv_genre" />
 
@@ -177,10 +178,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="28dp"
+            android:fontFamily="@font/roboto_black"
             android:text="@string/storyline_title"
             android:textColor="#ECECEC"
             android:textSize="14sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toStartOf="@id/gl_guideline_end"
             app:layout_constraintStart_toEndOf="@+id/gl_guideline_start"
             app:layout_constraintTop_toBottomOf="@id/barrier_review" />
@@ -189,6 +190,7 @@
             android:id="@+id/tv_storyline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_light"
             android:gravity="center_vertical"
             android:lineSpacingExtra="4sp"
             android:paddingTop="24dp"
@@ -204,6 +206,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto_black"
             android:letterSpacing="-0.01"
             android:shadowColor="@color/shadow_color"
             android:shadowDx="0"
@@ -224,6 +227,7 @@
             android:layout_height="80dp"
             android:src="@drawable/robert_downey"
             app:layout_constraintEnd_toStartOf="@+id/iv_cast_2"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/gl_guideline_start"
             app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
 
@@ -234,6 +238,7 @@
             android:layout_height="wrap_content"
             android:text="@string/robert_downey_jr"
             app:layout_constraintEnd_toEndOf="@id/iv_cast_1"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@id/iv_cast_1"
             app:layout_constraintTop_toBottomOf="@id/iv_cast_1" />
 
@@ -244,6 +249,7 @@
             android:layout_height="80dp"
             android:src="@drawable/chris_evans"
             app:layout_constraintEnd_toStartOf="@+id/iv_cast_3"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/iv_cast_1"
             app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
 
@@ -254,6 +260,7 @@
             android:layout_height="wrap_content"
             android:text="@string/chris_evans"
             app:layout_constraintEnd_toEndOf="@id/iv_cast_2"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@id/iv_cast_2"
             app:layout_constraintTop_toBottomOf="@id/iv_cast_2" />
 
@@ -264,6 +271,7 @@
             android:layout_height="80dp"
             android:src="@drawable/mark_ruffalo"
             app:layout_constraintEnd_toStartOf="@+id/iv_cast_4"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/iv_cast_2"
             app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
 
@@ -274,6 +282,7 @@
             android:layout_height="wrap_content"
             android:text="@string/mark_ruffalo"
             app:layout_constraintEnd_toEndOf="@id/iv_cast_3"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@id/iv_cast_3"
             app:layout_constraintTop_toBottomOf="@id/iv_cast_3" />
 
@@ -284,6 +293,7 @@
             android:layout_height="80dp"
             android:src="@drawable/chris_hemsworth"
             app:layout_constraintEnd_toStartOf="@+id/gl_guideline_end"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toEndOf="@+id/iv_cast_3"
             app:layout_constraintTop_toBottomOf="@id/tv_cast_title" />
 
@@ -294,6 +304,7 @@
             android:layout_height="wrap_content"
             android:text="@string/chris_hemsworth"
             app:layout_constraintEnd_toEndOf="@id/iv_cast_4"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
             app:layout_constraintStart_toStartOf="@id/iv_cast_4"
             app:layout_constraintTop_toBottomOf="@id/iv_cast_4" />
     </androidx.constraintlayout.widget.ConstraintLayout>
