@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space_1x">4dp</dimen>
+    <dimen name="space_2x">8dp</dimen>
+    <dimen name="space_4x">16dp</dimen>
+    <dimen name="star_margin_start">3.25dp</dimen>
+</resources>
