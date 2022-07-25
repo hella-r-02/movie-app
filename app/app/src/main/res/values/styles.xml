@@ -9,14 +9,16 @@
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
     </style>
+
     <style name="cast">
         <item name="android:scaleType">fitCenter</item>
         <item name="android:layout_marginTop">7dp</item>
     </style>
+
     <style name="cast_name">
         <item name="android:textColor">@color/cast_name_text_color</item>
         <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/roboto_black</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:lineSpacingExtra">2sp</item>
         <item name="android:layout_marginTop">6dp</item>
