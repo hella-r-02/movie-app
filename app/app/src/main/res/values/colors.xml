@@ -10,8 +10,9 @@
     <color name="background">#191926</color>
     <color name="movie_name_color">#ECECEC</color>
     <color name="shadow_color">#80000000</color>
-    <color name="genre_text_color">#FF3466</color>
-    <color name="review_text_color">#6D6D80</color>
+    <color name="pink">#FF3466</color>
+    <color name="gray">#6D6D80</color>
+
     <color name="cast_text_color">#CCFFFFFF</color>
     <color name="cast_name_text_color">#D8D8D8</color>
     <color name="back_text_color">#A6FFFFFF</color>
