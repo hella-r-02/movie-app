@@ -17,4 +17,5 @@
     <color name="cast_name_text_color">#D8D8D8</color>
     <color name="back_text_color">#A6FFFFFF</color>
     <color name="duration_movie_text_color">#565665</color>
+    <color name="image_tint">#99191926</color>
 </resources>

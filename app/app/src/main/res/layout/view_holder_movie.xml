@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="170dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="160dp"
     android:layout_height="296dp"
-   app:cardBackgroundColor="@android:color/transparent"
+    android:layout_marginBottom="20dp"
+    app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="2dp"
-        android:background="@drawable/movie_card_background">
+        android:background="@drawable/movie_card_background"
+        android:padding="2dp">
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_movie"
-            android:layout_width="166dp"
+            android:layout_width="156dp"
             android:layout_height="246dp"
-            android:scaleType="centerCrop"
-            app:shapeAppearanceOverlay="@style/roundedImageView"
             android:outlineProvider="background"
-            android:src="@drawable/poster"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-        <View
-            android:layout_width="166dp"
-            android:layout_height="246dp"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/image_movie_card_tint"/>
+            android:foreground="@drawable/image_movie_card_tint"
+            app:shapeAppearanceOverlay="@style/roundedImageView"
+            tools:src="@drawable/poster" />
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_end="288dp" />
+            app:layout_constraintGuide_begin="@dimen/space_2x" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_end="162dp" />
+            app:layout_constraintGuide_begin="@dimen/space_2x" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_end"
@@ -61,9 +60,9 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_black"
                 android:gravity="center"
-                android:text="@string/pg"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:text="@string/pg" />
         </androidx.cardview.widget.CardView>
 
         <ImageView
@@ -80,12 +79,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:fontFamily="@font/roboto_light"
-            android:text="@string/genre"
             android:textColor="@color/pink"
             android:textSize="8sp"
             app:layout_constraintBottom_toTopOf="@id/barrier_rating"
             app:layout_constraintEnd_toStartOf="@id/gl_end"
-            app:layout_constraintStart_toEndOf="@+id/gl_start" />
+            app:layout_constraintStart_toEndOf="@+id/gl_start"
+            tools:text="@string/genre" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier_rating"
@@ -102,7 +101,7 @@
             android:src="@drawable/ic_star"
             app:layout_constraintBottom_toBottomOf="@id/image_movie"
             app:layout_constraintStart_toEndOf="@+id/gl_start"
-            app:tint="@color/pink"/>
+            app:tint="@color/pink" />
 
         <ImageView
             android:id="@+id/iv_star_2"
@@ -113,7 +112,7 @@
             android:src="@drawable/ic_star"
             app:layout_constraintBottom_toBottomOf="@id/image_movie"
             app:layout_constraintStart_toEndOf="@+id/iv_star_1"
-            app:tint="@color/pink"/>
+            app:tint="@color/pink" />
 
         <ImageView
             android:id="@+id/iv_star_3"
@@ -124,7 +123,7 @@
             android:src="@drawable/ic_star"
             app:layout_constraintBottom_toBottomOf="@id/image_movie"
             app:layout_constraintStart_toEndOf="@+id/iv_star_2"
-            app:tint="@color/pink"/>
+            app:tint="@color/pink" />
 
         <ImageView
             android:id="@+id/iv_star_4"
@@ -135,7 +134,7 @@
             android:src="@drawable/ic_star"
             app:layout_constraintBottom_toBottomOf="@id/image_movie"
             app:layout_constraintStart_toEndOf="@+id/iv_star_3"
-            app:tint="@color/pink"/>
+            app:tint="@color/pink" />
 
         <ImageView
             android:id="@+id/iv_star_5"
@@ -146,7 +145,7 @@
             android:src="@drawable/ic_star"
             app:layout_constraintBottom_toBottomOf="@id/image_movie"
             app:layout_constraintStart_toEndOf="@+id/iv_star_4"
-            app:tint="@color/gray"/>
+            app:tint="@color/gray" />
 
         <TextView
             android:id="@+id/tv_review"
@@ -154,11 +153,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/roboto_black"
-            android:text="@string/review"
             android:textColor="@color/gray"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="@id/image_movie"
-            app:layout_constraintStart_toEndOf="@+id/iv_star_5" />
+            app:layout_constraintStart_toEndOf="@+id/iv_star_5"
+            tools:text="@string/review" />
 
         <TextView
             android:id="@+id/tv_movie_name"
@@ -168,12 +167,12 @@
             android:gravity="center_vertical"
             android:letterSpacing="-0.01"
             android:lineSpacingExtra="-7sp"
-            android:text="@string/name_movie_card"
             android:textColor="@color/movie_name_color"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_duration_movie"
             app:layout_constraintEnd_toStartOf="@id/gl_end"
             app:layout_constraintStart_toEndOf="@+id/gl_start"
-            app:layout_constraintBottom_toTopOf="@id/tv_duration_movie" />
+            tools:text="@string/name_movie_card" />
 
         <TextView
             android:id="@+id/tv_duration_movie"
@@ -181,11 +180,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/space_2x"
             android:fontFamily="@font/roboto_black"
-            android:text="@string/duration_movie"
             android:textColor="@color/duration_movie_text_color"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/gl_start" />
+            app:layout_constraintStart_toEndOf="@+id/gl_start"
+            tools:text="@string/duration_movie" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
