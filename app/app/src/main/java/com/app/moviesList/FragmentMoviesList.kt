@@ -6,11 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.R
-import com.app.data.models.Movie
-import com.app.data.models.MoviesDataSource
+import com.app.data.JsonMovieRepository
+import com.app.model.Movie
+import kotlinx.coroutines.launch
 
 class FragmentMoviesList : Fragment() {
 
@@ -39,14 +41,18 @@ class FragmentMoviesList : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setAdapterForRecyclerView(view = view)
+        val repository = JsonMovieRepository(requireContext())
+        lifecycleScope.launch {
+            val movies = repository.loadMovies()
+            setAdapterForRecyclerView(view = view, movies = movies)
+        }
     }
 
-    private fun setAdapterForRecyclerView(view: View) {
+    private fun setAdapterForRecyclerView(view: View, movies: List<Movie>) {
         adapter = MoviesListAdapter { movieData ->
             itemClickListener?.onMovieSelected(movieData)
         }
-        adapter.submitList(MoviesDataSource.getMovies())
+        adapter.submitList(movies)
         recycler = view.findViewById(R.id.rv_movies)
         val layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         recycler?.layoutManager = layoutManager

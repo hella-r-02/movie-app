@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.R
-import com.app.data.models.Movie
+import com.app.model.Movie
 import com.bumptech.glide.Glide
 
 class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
@@ -50,14 +50,13 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
         @SuppressLint("SetTextI18n")
         fun onBind(movie: Movie, onClickCard: (item: Movie) -> Unit) {
             Glide.with(context)
-                .load(movie.poster)
+                .load(movie.imageUrl)
                 .into(imageMovie)
-//            ImageViewCompat.setImageTintList(imageMovie, ColorStateList.valueOf(ContextCompat.getColor(context,R.color.image_tint)))
-            pg.text = movie.pg
-            name.text = movie.name
-            review.text = movie.countOfReviews + " reviews"
-            duration.text = movie.duration + " min"
-            genre.text = movie.genre
+            pg.text = movie.pgAge.toString() + "+"
+            name.text = movie.title
+            review.text = movie.reviewCount.toString() + " reviews"
+            duration.text = movie.runningTime.toString() + " min"
+            genre.text = movie.genres.joinToString { it.name }
             stars.forEachIndexed { index, star ->
                 val colorId = if (movie.rating - 1 > index) R.color.pink else R.color.gray
                 ImageViewCompat.setImageTintList(

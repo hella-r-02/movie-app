@@ -4,4 +4,5 @@
     <dimen name="space_2x">8dp</dimen>
     <dimen name="space_4x">16dp</dimen>
     <dimen name="star_margin_start">3.25dp</dimen>
+    <dimen name="star_margin_bottom">20dp</dimen>
 </resources>

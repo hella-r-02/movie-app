@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.R
-import com.app.data.models.Actor
+import com.app.model.Actor
 import com.bumptech.glide.Glide
 
 class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.DataViewHolder>(DiffCallback()) {
@@ -31,7 +31,8 @@ class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.DataViewHolder>(D
 
         fun onBind(actor: Actor) {
             Glide.with(context)
-                .load(actor.avatar)
+                .asBitmap()
+                .load(actor.imageUrl)
                 .into(avatar)
             name.text = actor.name
         }

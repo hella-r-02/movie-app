@@ -2,7 +2,7 @@ package com.app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.app.data.models.Movie
+import com.app.model.Movie
 import com.app.moviesDetails.FragmentMoviesDetails
 import com.app.moviesList.FragmentMoviesList
 
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity(),
 
     private fun navigateToDetails(movie: Movie) {
         val bundle = Bundle()
-        bundle.putSerializable("movie", movie)
+        bundle.putInt("movie_id",movie.id)
         val fragment = FragmentMoviesDetails()
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction()
