@@ -10,26 +10,34 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.R
-import com.app.data.JsonMovieRepository
+import com.app.data.MovieRepositoryImpl
+import com.app.databinding.FragmentMoviesDetailsBinding
 import com.app.model.Movie
+import com.app.moviesDetails.viewModel.MovieState
+import com.app.moviesDetails.viewModel.MovieState.*
+import com.app.moviesDetails.viewModel.MoviesDetailsViewModel
+import com.app.moviesDetails.viewModel.MoviesDetailsViewModelFactory
 import com.bumptech.glide.Glide
-import kotlinx.coroutines.launch
 
 class FragmentMoviesDetails : Fragment() {
     private lateinit var adapter: ActorsListAdapter
-    private var recycler: RecyclerView? = null
     private var movieId: Int? = null
+    private lateinit var viewModel: MoviesDetailsViewModel
+    private lateinit var binding: FragmentMoviesDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel = ViewModelProvider(
+            this,
+            MoviesDetailsViewModelFactory(MovieRepositoryImpl(requireContext()))
+        )[MoviesDetailsViewModel::class.java]
     }
 
     private var onBackClickListener: MoviesDetailsButtonClickListener? = null
@@ -59,44 +67,49 @@ class FragmentMoviesDetails : Fragment() {
     @SuppressLint("SetTextI18n", "ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding = FragmentMoviesDetailsBinding.bind(view)
+        viewModel.liveDataState.observe(
+            this.viewLifecycleOwner, this::setState
+        )
+        viewModel.loadMovie(movieId!!)
+    }
 
-        lifecycleScope.launch {
-            val repository = JsonMovieRepository(requireContext())
-            val movie = repository.loadMovie(movieId = movieId!!)
-            if (movie == null) {
-                Toast.makeText(requireContext(), "Movie loading error", Toast.LENGTH_LONG).show()
-            }
-            setAdapterForRecyclerView(view, movie = movie!!)
-            loadData(view = view, movie = movie)
+    private fun setState(state: MovieState) {
+        when (state) {
+            is DefaultState -> state.movie?.let { loadData(it) }
+            is ErrorState -> Toast.makeText(
+                requireContext(),
+                "Movie loading error",
+                Toast.LENGTH_LONG
+            ).show()
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private fun loadData(view: View, movie: Movie) {
-        val poster = view.findViewById<ImageView>(R.id.iv_poster)
-        Glide.with(view)
+    private fun loadData(movie: Movie) {
+        setAdapterForRecyclerView(movie = movie)
+        Glide.with(requireView())
             .load(movie.detailImageUrl)
             .fitCenter()
-            .into(poster)
-        view.findViewById<TextView>(R.id.tv_pg).text = movie.pgAge.toString() + "+"
-        view.findViewById<TextView>(R.id.tv_movie_name).text = movie.title
-        view.findViewById<TextView>(R.id.tv_genre).text = movie.genres.joinToString { it.name }
-        loadStars(view = view, movie = movie)
-        view.findViewById<TextView>(R.id.tv_review).text =
-            movie.reviewCount.toString() + " Reviews"
-        view.findViewById<TextView>(R.id.tv_storyline).text = movie.storyLine
+            .into(binding.ivPoster)
+        binding.tvPg.text = movie.pgAge.toString() + "+"
+        binding.tvMovieName.text = movie.title
+        binding.tvGenre.text = movie.genres.joinToString { it.name }
+        loadStars(movie = movie)
+        binding.tvReview.text = movie.reviewCount.toString() + " Reviews"
+        binding.tvStoryline.text = movie.storyLine
         if (movie.actors.isEmpty()) {
-            view.findViewById<TextView>(R.id.tv_cast_title).visibility = View.INVISIBLE
+            binding.tvCastTitle.visibility = View.INVISIBLE
         }
     }
 
-    private fun loadStars(view: View, movie: Movie) {
+    private fun loadStars(movie: Movie) {
         val stars: List<ImageView> = listOf(
-            view.findViewById(R.id.iv_star_1),
-            view.findViewById(R.id.iv_star_2),
-            view.findViewById(R.id.iv_star_3),
-            view.findViewById(R.id.iv_star_4),
-            view.findViewById(R.id.iv_star_5)
+            binding.ivStar1,
+            binding.ivStar2,
+            binding.ivStar3,
+            binding.ivStar4,
+            binding.ivStar5
         )
         stars.forEachIndexed { index, star ->
             val colorId = if (movie.rating - 1 > index) R.color.pink else R.color.gray
@@ -108,18 +121,12 @@ class FragmentMoviesDetails : Fragment() {
         }
     }
 
-    private fun setAdapterForRecyclerView(view: View, movie: Movie) {
+    private fun setAdapterForRecyclerView(movie: Movie) {
         adapter = ActorsListAdapter()
         adapter.submitList(movie.actors)
-        recycler = view.findViewById(R.id.rv_actors)
         val layoutManager = GridLayoutManager(requireContext(), 1, RecyclerView.HORIZONTAL, false)
-        recycler?.layoutManager = layoutManager
-        recycler?.adapter = adapter
-    }
-
-    override fun onDetach() {
-        recycler = null
-        super.onDetach()
+        binding.rvActors.layoutManager = layoutManager
+        binding.rvActors.adapter = adapter
     }
 
     interface MoviesDetailsButtonClickListener {
