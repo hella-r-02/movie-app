@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".moviesDetails.FragmentMoviesDetails">
+    tools:context=".presentation.movieDetails.FragmentMoviesDetails">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,7 +30,7 @@
             android:layout_height="298dp"
             android:contentDescription="@string/movie_img"
             android:scaleType="centerCrop"
-            android:src="@drawable/img_movie"
+            tools:src="@drawable/img_movie"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -73,7 +73,7 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_black"
                 android:gravity="center"
-                android:text="@string/pg"
+                tools:text="@string/pg"
                 android:textColor="#FFFFFF"
                 android:textSize="12sp" />
         </androidx.cardview.widget.CardView>
@@ -91,7 +91,7 @@
             android:shadowDx="0"
             android:shadowDy="1"
             android:shadowRadius="12"
-            android:text="@string/movie_name"
+            tools:text="@string/movie_name"
             android:textColor="@color/movie_name_color"
             android:textSize="40sp"
             app:layout_constraintEnd_toStartOf="@id/gl_end"
@@ -103,7 +103,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_light"
-            android:text="@string/genre"
+            tools:text="@string/genre"
             android:textColor="@color/pink"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/gl_end"
@@ -170,7 +170,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="9dp"
             android:fontFamily="@font/roboto_black"
-            android:text="@string/review"
+            tools:text="@string/review"
             android:textColor="@color/gray"
             android:textSize="14sp"
             app:layout_constraintStart_toEndOf="@+id/iv_star_5"
@@ -204,7 +204,7 @@
             android:gravity="center_vertical"
             android:lineSpacingExtra="4sp"
             android:paddingTop="24dp"
-            android:text="@string/storyline"
+            tools:text="@string/storyline"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/gl_end"

@@ -1,8 +1,7 @@
-package com.app.moviesList
+package com.app.presentation.moviesList
 
 import android.content.Context
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +12,11 @@ import com.app.R
 import com.app.data.MovieRepositoryImpl
 import com.app.databinding.FragmentMoviesListBinding
 import com.app.model.Movie
-import com.app.moviesList.viewModel.MoviesListViewModel
-import com.app.moviesList.viewModel.MoviesListViewModelFactory
+import com.app.presentation.BaseFragment
+import com.app.presentation.moviesList.viewModel.MoviesListViewModel
+import com.app.presentation.moviesList.viewModel.MoviesListViewModelFactory
 
-class FragmentMoviesList : Fragment() {
+class FragmentMoviesList : BaseFragment() {
 
     private lateinit var adapter: MoviesListAdapter
     private lateinit var viewModel: MoviesListViewModel
@@ -26,7 +26,9 @@ class FragmentMoviesList : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
-            MoviesListViewModelFactory(MovieRepositoryImpl(requireContext()))
+            MoviesListViewModelFactory(
+                MovieRepositoryImpl(retrofitDataSourceImpl)
+            )
         )[MoviesListViewModel::class.java]
     }
 
@@ -68,5 +70,4 @@ class FragmentMoviesList : Fragment() {
     interface MoviesListItemClickListener {
         fun onMovieSelected(movie: Movie)
     }
-
 }

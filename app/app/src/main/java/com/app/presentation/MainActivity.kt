@@ -1,14 +1,16 @@
-package com.app
+package com.app.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.app.R
 import com.app.model.Movie
-import com.app.moviesDetails.FragmentMoviesDetails
-import com.app.moviesList.FragmentMoviesList
+import com.app.presentation.movieDetails.FragmentMoviesDetails
+import com.app.presentation.moviesList.FragmentMoviesList
 
 class MainActivity : AppCompatActivity(),
     FragmentMoviesList.MoviesListItemClickListener,
     FragmentMoviesDetails.MoviesDetailsButtonClickListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity(),
 
     private fun navigateToDetails(movie: Movie) {
         val bundle = Bundle()
-        bundle.putInt("movie_id",movie.id)
+        bundle.putInt("movie_id", movie.id)
         val fragment = FragmentMoviesDetails()
         fragment.arguments = bundle
         supportFragmentManager.beginTransaction()
