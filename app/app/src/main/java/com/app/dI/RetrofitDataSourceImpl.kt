@@ -3,10 +3,10 @@ package com.app.dI
 import com.app.data.service.ActorApiService
 import com.app.data.service.GenreApiService
 import com.app.data.service.MovieApiService
-import com.app.model.Actor
-import com.app.model.Genre
-import com.app.model.Movie
-import com.app.model.MovieDetails
+import com.app.domain.model.Actor
+import com.app.domain.model.Genre
+import com.app.domain.model.Movie
+import com.app.domain.model.MovieDetails
 
 private const val ADULT_AGE = 16
 private const val CHILD_AGE = 13

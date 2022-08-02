@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.R
-import com.app.model.Movie
+import com.app.domain.model.Movie
 import com.bumptech.glide.Glide
 
 class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :

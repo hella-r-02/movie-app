@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.app.R
-import com.app.model.Actor
+import com.app.domain.model.Actor
 import com.bumptech.glide.Glide
 
 class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.DataViewHolder>(DiffCallback()) {

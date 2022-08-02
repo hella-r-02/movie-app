@@ -1,6 +1,6 @@
 package com.app.presentation.movieDetails
 
-import com.app.model.MovieDetails
+import com.app.domain.model.MovieDetails
 
 sealed class MovieState {
     class DefaultState(val movie: MovieDetails?) : MovieState()

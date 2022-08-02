@@ -2,8 +2,8 @@ package com.app.data
 
 import com.app.dI.RetrofitDataSource
 import com.app.domain.MovieRepository
-import com.app.model.Movie
-import com.app.model.MovieDetails
+import com.app.domain.model.Movie
+import com.app.domain.model.MovieDetails
 
 class MovieRepositoryImpl(
     private val dataSource: RetrofitDataSource

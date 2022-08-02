@@ -1,7 +1,7 @@
 package com.app.dI
 
-import com.app.model.Movie
-import com.app.model.MovieDetails
+import com.app.domain.model.Movie
+import com.app.domain.model.MovieDetails
 
 interface RetrofitDataSource {
     suspend fun loadMovies(): List<Movie>

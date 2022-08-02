@@ -19,7 +19,7 @@ import com.app.presentation.BaseFragment
 import com.app.R
 import com.app.data.MovieRepositoryImpl
 import com.app.databinding.FragmentMoviesDetailsBinding
-import com.app.model.MovieDetails
+import com.app.domain.model.MovieDetails
 import com.app.presentation.movieDetails.MovieState.*
 import com.app.presentation.movieDetails.viewModel.MoviesDetailsViewModelFactory
 import com.app.presentation.movieDetails.viewModel.MoviesDetailsViewModel

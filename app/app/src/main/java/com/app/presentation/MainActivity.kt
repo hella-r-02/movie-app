@@ -3,7 +3,7 @@ package com.app.presentation
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.app.R
-import com.app.model.Movie
+import com.app.domain.model.Movie
 import com.app.presentation.movieDetails.FragmentMoviesDetails
 import com.app.presentation.moviesList.FragmentMoviesList
 

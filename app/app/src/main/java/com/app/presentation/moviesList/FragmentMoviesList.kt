@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.app.R
 import com.app.data.MovieRepositoryImpl
 import com.app.databinding.FragmentMoviesListBinding
-import com.app.model.Movie
+import com.app.domain.model.Movie
 import com.app.presentation.BaseFragment
 import com.app.presentation.moviesList.viewModel.MoviesListViewModel
 import com.app.presentation.moviesList.viewModel.MoviesListViewModelFactory

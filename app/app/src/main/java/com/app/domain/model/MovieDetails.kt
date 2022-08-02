@@ -1,4 +1,4 @@
-package com.app.model
+package com.app.domain.model
 
 data class MovieDetails(
     val id: Int,

@@ -1,11 +1,10 @@
 package com.app.presentation.moviesList.viewModel
 
-import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.data.MovieRepositoryImpl
-import com.app.model.Movie
+import com.app.domain.model.Movie
 import kotlinx.coroutines.*
 
 class MoviesListViewModel(
