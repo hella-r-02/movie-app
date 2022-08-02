@@ -1,10 +1,9 @@
-package com.app.moviesDetails
+package com.app.presentation.movieDetails
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.ColorStateList
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,17 +15,17 @@ import androidx.core.widget.ImageViewCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.app.presentation.BaseFragment
 import com.app.R
 import com.app.data.MovieRepositoryImpl
 import com.app.databinding.FragmentMoviesDetailsBinding
-import com.app.model.Movie
-import com.app.moviesDetails.viewModel.MovieState
-import com.app.moviesDetails.viewModel.MovieState.*
-import com.app.moviesDetails.viewModel.MoviesDetailsViewModel
-import com.app.moviesDetails.viewModel.MoviesDetailsViewModelFactory
+import com.app.model.MovieDetails
+import com.app.presentation.movieDetails.MovieState.*
+import com.app.presentation.movieDetails.viewModel.MoviesDetailsViewModelFactory
+import com.app.presentation.movieDetails.viewModel.MoviesDetailsViewModel
 import com.bumptech.glide.Glide
 
-class FragmentMoviesDetails : Fragment() {
+class FragmentMoviesDetails : BaseFragment() {
     private lateinit var adapter: ActorsListAdapter
     private var movieId: Int? = null
     private lateinit var viewModel: MoviesDetailsViewModel
@@ -36,7 +35,9 @@ class FragmentMoviesDetails : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = ViewModelProvider(
             this,
-            MoviesDetailsViewModelFactory(MovieRepositoryImpl(requireContext()))
+            MoviesDetailsViewModelFactory(
+                MovieRepositoryImpl(retrofitDataSourceImpl)
+            )
         )[MoviesDetailsViewModel::class.java]
     }
 
@@ -86,10 +87,10 @@ class FragmentMoviesDetails : Fragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun loadData(movie: Movie) {
+    private fun loadData(movie: MovieDetails) {
         setAdapterForRecyclerView(movie = movie)
         Glide.with(requireView())
-            .load(movie.detailImageUrl)
+            .load(movie.imageUrl)
             .fitCenter()
             .into(binding.ivPoster)
         binding.tvPg.text = movie.pgAge.toString() + "+"
@@ -103,7 +104,7 @@ class FragmentMoviesDetails : Fragment() {
         }
     }
 
-    private fun loadStars(movie: Movie) {
+    private fun loadStars(movie: MovieDetails) {
         val stars: List<ImageView> = listOf(
             binding.ivStar1,
             binding.ivStar2,
@@ -121,8 +122,9 @@ class FragmentMoviesDetails : Fragment() {
         }
     }
 
-    private fun setAdapterForRecyclerView(movie: Movie) {
+    private fun setAdapterForRecyclerView(movie: MovieDetails) {
         adapter = ActorsListAdapter()
+        println("ACTORS "+movie.actors.size)
         adapter.submitList(movie.actors)
         val layoutManager = GridLayoutManager(requireContext(), 1, RecyclerView.HORIZONTAL, false)
         binding.rvActors.layoutManager = layoutManager

@@ -1,9 +1,10 @@
-package com.app.moviesDetails.viewModel
+package com.app.presentation.movieDetails.viewModel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.data.MovieRepository
+import com.app.domain.MovieRepository
+import com.app.presentation.movieDetails.MovieState
 import kotlinx.coroutines.launch
 
 class MoviesDetailsViewModel(private val repository: MovieRepository) : ViewModel() {

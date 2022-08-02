@@ -1,15 +1,17 @@
 package com.app.model
 
-import java.io.Serializable
-
-class Movie(
+data class MovieDetails(
     val id: Int,
     val pgAge: Int,
     val title: String,
     val genres: List<Genre>,
     val runningTime: Int,
     val reviewCount: Int,
-    val isLiked: Boolean,
+    val isLiked:Boolean,
     val rating: Int,
     val imageUrl: String,
-) : Serializable
+  //  val detailImageUrl:String,
+    val storyLine: String,
+    val actors: List<Actor>
+) {
+}
