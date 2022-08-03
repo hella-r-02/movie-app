@@ -2,9 +2,11 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="160dp"
-    android:layout_height="296dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
+    android:layout_marginStart="6dp"
+    android:layout_marginEnd="6dp"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="8dp">
 
@@ -16,9 +18,10 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/image_movie"
-            android:layout_width="156dp"
-            android:layout_height="246dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
             android:foreground="@drawable/image_movie_card_tint"
+            app:layout_constraintDimensionRatio="1:1.5"
             android:outlineProvider="background"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"

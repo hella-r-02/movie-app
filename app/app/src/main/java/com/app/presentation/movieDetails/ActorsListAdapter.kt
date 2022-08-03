@@ -32,6 +32,7 @@ class ActorsListAdapter : ListAdapter<Actor, ActorsListAdapter.DataViewHolder>(D
         fun onBind(actor: Actor) {
             Glide.with(context)
                 .asBitmap()
+                .placeholder(R.drawable.ic_avatar_placeholder)
                 .load(actor.imageUrl)
                 .into(avatar)
             name.text = actor.name

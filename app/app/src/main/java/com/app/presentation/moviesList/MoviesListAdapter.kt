@@ -79,6 +79,7 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
             return oldItem.id == newItem.id
         }
 
+        @SuppressLint("DiffUtilEquals")
         override fun areContentsTheSame(oldItem: Movie, newItem: Movie): Boolean {
             return oldItem == newItem
         }
