@@ -10,7 +10,7 @@ import com.app.data.local.room.entity.*
 
 @Database(
     entities = [MovieEntity::class, GenreEntity::class, ActorEntity::class, MovieDetailsEntity::class],
-    version = 1
+    version = 2
 )
 abstract class AppRoomDatabase : RoomDatabase() {
     companion object {

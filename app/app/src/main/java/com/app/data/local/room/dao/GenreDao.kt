@@ -1,9 +1,6 @@
 package com.app.data.local.room.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.app.data.local.room.entity.GenreEntity
 
 @Dao
@@ -16,4 +13,10 @@ interface GenreDao {
 
     @Query("SELECT * FROM genres where id= :id")
     suspend fun getById(id: Long): GenreEntity
+
+    @Update
+    fun update(genreEntity: GenreEntity)
+
+    @Update
+    fun update(genres: List<GenreEntity>): Int
 }

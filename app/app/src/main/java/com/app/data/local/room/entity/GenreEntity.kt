@@ -13,6 +13,12 @@ import androidx.room.PrimaryKey
             parentColumns = ["id"],
             childColumns = ["movieId"],
             onDelete = CASCADE
+        ),
+        androidx.room.ForeignKey(
+            entity = MovieDetailsEntity::class,
+            parentColumns = ["id"],
+            childColumns = ["movieDetailsId"],
+            onDelete = androidx.room.ForeignKey.CASCADE
         )
     ]
 )
@@ -24,5 +30,7 @@ data class GenreEntity(
     val name: String,
 
     @ColumnInfo(name = "movieId")
-    val movieId: Int
+    val movieId: Int,
+    @ColumnInfo(name = "movieDetailsId")
+    val movieDetailsId: Int?
 )

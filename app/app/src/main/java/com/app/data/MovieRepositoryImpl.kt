@@ -23,6 +23,13 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun loadMovie(movieId: Int): MovieDetails? {
-        return dataSource.loadMovie(movieId)
+        val movieDb = localDataSource.loadMovieDetails(movieId)
+        return if (movieDb == null) {
+            val movieFromNetwork = dataSource.loadMovie(movieId)
+            localDataSource.insertMovieDetails(movieFromNetwork)
+            movieFromNetwork
+        } else {
+            movieDb
+        }
     }
 }

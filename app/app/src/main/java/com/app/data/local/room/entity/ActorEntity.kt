@@ -8,9 +8,9 @@ import androidx.room.PrimaryKey
     tableName = "actors",
     foreignKeys = [
         androidx.room.ForeignKey(
-            entity = MovieEntity::class,
+            entity = MovieDetailsEntity::class,
             parentColumns = ["id"],
-            childColumns = ["movieId"],
+            childColumns = ["movieDetailsId"],
             onDelete = androidx.room.ForeignKey.CASCADE
         )
     ]
@@ -23,8 +23,8 @@ data class ActorEntity(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "imgUrl")
-    val imageUrl: String,
-    @ColumnInfo(name = "movieId")
-    val movieId: Int
+    val imageUrl: String?,
+    @ColumnInfo(name = "movieDetailsId")
+    val movieDetailsId: Int
 
 )
