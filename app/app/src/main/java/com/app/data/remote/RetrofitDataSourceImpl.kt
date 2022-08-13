@@ -1,8 +1,9 @@
-package com.app.dI
+package com.app.data.remote
 
-import com.app.data.service.ActorApiService
-import com.app.data.service.GenreApiService
-import com.app.data.service.MovieApiService
+import com.app.dI.API_KEY
+import com.app.data.remote.service.ActorApiService
+import com.app.data.remote.service.GenreApiService
+import com.app.data.remote.service.MovieApiService
 import com.app.domain.model.Actor
 import com.app.domain.model.Genre
 import com.app.domain.model.Movie

@@ -4,11 +4,12 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.app.data.MovieRepositoryImpl
+import com.app.domain.MovieRepository
 import com.app.domain.model.Movie
 import kotlinx.coroutines.*
 
 class MoviesListViewModel(
-    private val repository: MovieRepositoryImpl
+    private val repository: MovieRepository
 ) : ViewModel() {
     private val _mutableLiveDataMovies = MutableLiveData<List<Movie>>(emptyList())
     val liveDataMovies get() = _mutableLiveDataMovies

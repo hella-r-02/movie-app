@@ -5,18 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.app.R
-import com.app.data.MovieRepositoryImpl
 import com.app.databinding.FragmentMoviesListBinding
 import com.app.domain.model.Movie
-import com.app.presentation.BaseFragment
+import com.app.presentation.MainActivity
 import com.app.presentation.moviesList.viewModel.MoviesListViewModel
-import com.app.presentation.moviesList.viewModel.MoviesListViewModelFactory
 
-class FragmentMoviesList : BaseFragment() {
+class FragmentMoviesList : Fragment() {
 
     private lateinit var adapter: MoviesListAdapter
     private lateinit var viewModel: MoviesListViewModel
@@ -24,12 +22,7 @@ class FragmentMoviesList : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(
-            this,
-            MoviesListViewModelFactory(
-                MovieRepositoryImpl(retrofitDataSourceImpl)
-            )
-        )[MoviesListViewModel::class.java]
+        viewModel = (activity as MainActivity).getMovieListViewModel()
     }
 
     private var itemClickListener: MoviesListItemClickListener? = null

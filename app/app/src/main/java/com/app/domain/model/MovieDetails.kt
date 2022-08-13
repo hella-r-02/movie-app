@@ -10,7 +10,6 @@ data class MovieDetails(
     val isLiked:Boolean,
     val rating: Int,
     val imageUrl: String,
-  //  val detailImageUrl:String,
     val storyLine: String,
     val actors: List<Actor>
 ) {

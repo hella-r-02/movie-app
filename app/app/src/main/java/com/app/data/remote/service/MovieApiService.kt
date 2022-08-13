@@ -1,8 +1,8 @@
-package com.app.data.service
+package com.app.data.remote.service
 
 import com.app.dI.API_KEY
-import com.app.data.model.MovieDetailsResponse
-import com.app.data.model.UpComingResponse
+import com.app.data.remote.model.MovieDetailsResponse
+import com.app.data.remote.model.UpComingResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

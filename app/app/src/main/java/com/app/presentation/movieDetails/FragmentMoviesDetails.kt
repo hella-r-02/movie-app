@@ -12,33 +12,26 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.app.presentation.BaseFragment
 import com.app.R
-import com.app.data.MovieRepositoryImpl
 import com.app.databinding.FragmentMoviesDetailsBinding
 import com.app.domain.model.MovieDetails
+import com.app.presentation.MainActivity
 import com.app.presentation.movieDetails.MovieState.*
-import com.app.presentation.movieDetails.viewModel.MoviesDetailsViewModelFactory
 import com.app.presentation.movieDetails.viewModel.MoviesDetailsViewModel
 import com.bumptech.glide.Glide
 
-class FragmentMoviesDetails : BaseFragment() {
+class FragmentMoviesDetails : Fragment() {
     private lateinit var adapter: ActorsListAdapter
     private var movieId: Int? = null
     private lateinit var viewModel: MoviesDetailsViewModel
     private lateinit var binding: FragmentMoviesDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        viewModel = (activity as MainActivity).getMovieDetailsViewModel()
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(
-            this,
-            MoviesDetailsViewModelFactory(
-                MovieRepositoryImpl(retrofitDataSourceImpl)
-            )
-        )[MoviesDetailsViewModel::class.java]
     }
 
     private var onBackClickListener: MoviesDetailsButtonClickListener? = null
@@ -124,7 +117,6 @@ class FragmentMoviesDetails : BaseFragment() {
 
     private fun setAdapterForRecyclerView(movie: MovieDetails) {
         adapter = ActorsListAdapter()
-        println("ACTORS "+movie.actors.size)
         adapter.submitList(movie.actors)
         val layoutManager = GridLayoutManager(requireContext(), 1, RecyclerView.HORIZONTAL, false)
         binding.rvActors.layoutManager = layoutManager

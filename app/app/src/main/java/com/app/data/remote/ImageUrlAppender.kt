@@ -1,7 +1,9 @@
-package com.app.dI
+package com.app.data.remote
 
-import com.app.data.model.ConfigurationResponse
-import com.app.data.service.ConfigurationApiService
+import com.app.dI.API_KEY
+import com.app.data.remote.model.ConfigurationResponse
+import com.app.data.remote.service.ConfigurationApiService
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
 private const val DEFAULT_SIZE = "original"
@@ -9,7 +11,7 @@ private const val IDENTIFIER_SMALL_SIZE = "w185"
 private const val IDENTIFIER_MEDIUM_SIZE = "w500"
 private const val IDENTIFIER_LARGE_SIZE = "w780"
 
-class ImageUrlAppender(
+class ImageUrlAppender @Inject constructor(
     private val configApi: ConfigurationApiService
 ) {
 
@@ -39,12 +41,15 @@ class ImageUrlAppender(
 
         configResponse = configApi.getConfiguration(API_KEY)
         baseUrl = configResponse?.images?.secureBaseUrl
-        posterSize = configResponse?.images?.posterSizes?.find { size -> size == IDENTIFIER_MEDIUM_SIZE }
-            ?: DEFAULT_SIZE
-        backdropSize = configResponse?.images?.backdropSizes?.find { size -> size == IDENTIFIER_LARGE_SIZE }
-            ?: DEFAULT_SIZE
-        profileSize = configResponse?.images?.profileSizes?.find { size -> size == IDENTIFIER_SMALL_SIZE }
-            ?: DEFAULT_SIZE
+        posterSize =
+            configResponse?.images?.posterSizes?.find { size -> size == IDENTIFIER_MEDIUM_SIZE }
+                ?: DEFAULT_SIZE
+        backdropSize =
+            configResponse?.images?.backdropSizes?.find { size -> size == IDENTIFIER_LARGE_SIZE }
+                ?: DEFAULT_SIZE
+        profileSize =
+            configResponse?.images?.profileSizes?.find { size -> size == IDENTIFIER_SMALL_SIZE }
+                ?: DEFAULT_SIZE
     }
 
     private fun buildUrl(url: String?, size: String, path: String?): String? {

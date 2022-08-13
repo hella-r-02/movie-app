@@ -1,4 +1,4 @@
-package com.app.dI
+package com.app.data.remote
 
 import com.app.domain.model.Movie
 import com.app.domain.model.MovieDetails

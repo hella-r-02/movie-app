@@ -1,4 +1,4 @@
-package com.app.data.model
+package com.app.data.remote.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

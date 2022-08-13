@@ -1,7 +1,7 @@
-package com.app.data.service
+package com.app.data.remote.service
 
 import com.app.dI.API_KEY
-import com.app.data.model.GenresResponse
+import com.app.data.remote.model.GenresResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
