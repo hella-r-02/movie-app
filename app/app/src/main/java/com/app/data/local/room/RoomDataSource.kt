@@ -13,21 +13,22 @@ import com.app.domain.model.MovieDetails
 class RoomDataSource(private val db: AppRoomDatabase) : LocalDataSource {
 
     override suspend fun loadMovies(): List<Movie> {
-        val moviesWithGenres = db.getMovieDao().getMoviesWithGenres()
+        val moviesWithGenres = db.getMovieDao().getAll()
         val moviesList = mutableListOf<Movie>()
         for (movieDb in moviesWithGenres) {
+            val genres = db.getGenreDao().getByMovieId(movieDb.movieId.toLong())
             moviesList += Movie(
-                id = movieDb.movieEntity.movieId,
-                pgAge = movieDb.movieEntity.pgAge,
-                title = movieDb.movieEntity.title,
-                genres = movieDb.genres.map { genre ->
+                id = movieDb.movieId,
+                pgAge = movieDb.pgAge,
+                title = movieDb.title,
+                genres = genres.map { genre ->
                     Genre(genre.genreId, genre.name)
                 },
-                runningTime = movieDb.movieEntity.runningTime,
-                reviewCount = movieDb.movieEntity.reviewCount,
-                isLiked = movieDb.movieEntity.isLiked,
-                rating = movieDb.movieEntity.rating,
-                imageUrl = movieDb.movieEntity.imageUrl
+                runningTime = movieDb.runningTime,
+                reviewCount = movieDb.reviewCount,
+                isLiked = movieDb.isLiked,
+                rating = movieDb.rating,
+                imageUrl = movieDb.imageUrl
             )
         }
         return moviesList

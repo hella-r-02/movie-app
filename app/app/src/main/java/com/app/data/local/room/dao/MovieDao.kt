@@ -17,4 +17,7 @@ interface MovieDao {
                 "JOIN genres ON genres.movieId = movies.id"
     )
     fun getMoviesWithGenres(): List<MovieWithGenres>
+
+    @Query("Select * from movies")
+    fun getAll(): List<MovieEntity>
 }

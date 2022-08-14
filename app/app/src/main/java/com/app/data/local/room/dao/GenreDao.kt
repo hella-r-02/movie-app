@@ -19,4 +19,7 @@ interface GenreDao {
 
     @Update
     fun update(genres: List<GenreEntity>): Int
+
+    @Query("SELECT * FROM genres where movieId=:movieId")
+    suspend fun getByMovieId(movieId: Long): List<GenreEntity>
 }
