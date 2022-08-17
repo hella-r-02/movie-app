@@ -1,8 +1,10 @@
 package com.app.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.app.R
 import com.app.app.App
 import com.app.domain.model.Movie
@@ -12,6 +14,7 @@ import com.app.presentation.movieDetails.viewModel.MoviesDetailsViewModelFactory
 import com.app.presentation.moviesList.FragmentMoviesList
 import com.app.presentation.moviesList.viewModel.MoviesListViewModel
 import com.app.presentation.moviesList.viewModel.MoviesListViewModelFactory
+import com.app.presentation.worker.RefreshMoviesWorker
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(),
@@ -25,6 +28,11 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        //TODO just for test that all work correctly
+        val workManager = WorkManager.getInstance(this)
+        workManager.enqueue(OneTimeWorkRequest.from(RefreshMoviesWorker::class.java))
+
         setContentView(R.layout.activity_main)
         (applicationContext as App).appComponent.inject(this)
         if (savedInstanceState == null) {

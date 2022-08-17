@@ -6,18 +6,25 @@ import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
 import androidx.work.Worker
-import dagger.assisted.Assisted
 import androidx.work.WorkerParameters
+import com.app.app.App
 import com.app.domain.MovieRepository
-import dagger.assisted.AssistedFactory
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-class RefreshMoviesWorker @AssistedInject constructor(
-    @Assisted private val context: Context,
-    @Assisted private val workerParameters: WorkerParameters,
-    val movieRepository: MovieRepository
+class RefreshMoviesWorker(
+    private val context: Context,
+    workerParameters: WorkerParameters,
 ) : Worker(context, workerParameters) {
+
+    @Inject
+    lateinit var movieRepository: MovieRepository
+
+    init {
+        val injector = (context.applicationContext as App).appComponent
+        injector.inject(this)
+    }
+
     override fun doWork(): Result {
         if (!isOnline()) {
             Log.e(TAG, "Failed to refresh movies")
@@ -32,7 +39,6 @@ class RefreshMoviesWorker @AssistedInject constructor(
     }
 
     private fun isOnline(): Boolean {
-        if (context == null) return false
         val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
@@ -58,11 +64,6 @@ class RefreshMoviesWorker @AssistedInject constructor(
             }
         }
         return false
-    }
-
-    @AssistedFactory
-    interface Factory {
-        fun create(appContext: Context, params: WorkerParameters): RefreshMoviesWorker
     }
 
     companion object {
