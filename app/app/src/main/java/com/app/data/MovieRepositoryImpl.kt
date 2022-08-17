@@ -32,4 +32,12 @@ class MovieRepositoryImpl(
             movieDb
         }
     }
+
+    override suspend fun loadMoviesFromApi(): List<Movie> {
+        return dataSource.loadMovies()
+    }
+
+    override suspend fun insertMovieToDb(movies: List<Movie>) {
+        localDataSource.insertMovies(movies)
+    }
 }

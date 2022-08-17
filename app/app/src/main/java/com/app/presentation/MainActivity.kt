@@ -1,8 +1,12 @@
 package com.app.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.OneTimeWorkRequest
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import com.app.R
 import com.app.app.App
 import com.app.domain.model.Movie
@@ -12,7 +16,10 @@ import com.app.presentation.movieDetails.viewModel.MoviesDetailsViewModelFactory
 import com.app.presentation.moviesList.FragmentMoviesList
 import com.app.presentation.moviesList.viewModel.MoviesListViewModel
 import com.app.presentation.moviesList.viewModel.MoviesListViewModelFactory
+import com.app.presentation.worker.RefreshMoviesWorker
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+
 
 class MainActivity : AppCompatActivity(),
     FragmentMoviesList.MoviesListItemClickListener,
@@ -25,6 +32,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initWorkManager()
         setContentView(R.layout.activity_main)
         (applicationContext as App).appComponent.inject(this)
         if (savedInstanceState == null) {
@@ -35,6 +43,14 @@ class MainActivity : AppCompatActivity(),
                     .commit()
             }
         }
+    }
+
+    private fun initWorkManager() {
+        val workManager = WorkManager.getInstance(this)
+        val work =
+            PeriodicWorkRequest.Builder(RefreshMoviesWorker::class.java, 15, TimeUnit.MINUTES)
+                .build()
+        workManager.enqueue(work)
     }
 
     private fun navigateToDetails(movie: Movie) {
@@ -64,6 +80,9 @@ class MainActivity : AppCompatActivity(),
         ViewModelProvider(this, movieListViewModelFactory).get(MoviesListViewModel::class.java)
 
     fun getMovieDetailsViewModel(): MoviesDetailsViewModel =
-        ViewModelProvider(this, movieDetailsViewModelFactory).get(MoviesDetailsViewModel::class.java)
+        ViewModelProvider(
+            this,
+            movieDetailsViewModelFactory
+        ).get(MoviesDetailsViewModel::class.java)
 
 }
