@@ -1,5 +1,6 @@
 package com.app.presentation.moviesList.viewModel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,6 +19,7 @@ class MoviesListViewModel(
     fun loadMovies() {
         viewModelScope.launch {
             repository.loadMoviesFlow().collect { item -> _mutableLiveDataMovies.value = item }
+            Log.e("load_movie", _mutableLiveDataMovies.value?.size.toString())
         }
     }
 }

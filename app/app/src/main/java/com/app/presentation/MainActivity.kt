@@ -4,8 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.OneTimeWorkRequest
-import androidx.work.PeriodicWorkRequest
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.app.R
 import com.app.app.App
@@ -48,9 +47,15 @@ class MainActivity : AppCompatActivity(),
     private fun initWorkManager() {
         val workManager = WorkManager.getInstance(this)
         val work =
-            PeriodicWorkRequest.Builder(RefreshMoviesWorker::class.java, 15, TimeUnit.MINUTES)
-                .build()
-        workManager.enqueue(work)
+            PeriodicWorkRequestBuilder<RefreshMoviesWorker>(
+                15,
+                TimeUnit.MINUTES,
+            ).build()
+        workManager.enqueueUniquePeriodicWork(
+            RefreshMoviesWorker.WORK_TAG,
+            ExistingPeriodicWorkPolicy.KEEP,
+            work
+        )
     }
 
     private fun navigateToDetails(movie: Movie) {
@@ -77,12 +82,12 @@ class MainActivity : AppCompatActivity(),
     }
 
     fun getMovieListViewModel(): MoviesListViewModel =
-        ViewModelProvider(this, movieListViewModelFactory).get(MoviesListViewModel::class.java)
+        ViewModelProvider(this, movieListViewModelFactory)[MoviesListViewModel::class.java]
 
     fun getMovieDetailsViewModel(): MoviesDetailsViewModel =
         ViewModelProvider(
             this,
             movieDetailsViewModelFactory
-        ).get(MoviesDetailsViewModel::class.java)
+        )[MoviesDetailsViewModel::class.java]
 
 }
