@@ -7,6 +7,7 @@ import com.app.data.MovieRepositoryImpl
 import com.app.domain.MovieRepository
 import com.app.domain.model.Movie
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 
 class MoviesListViewModel(
     private val repository: MovieRepository
@@ -16,8 +17,7 @@ class MoviesListViewModel(
 
     fun loadMovies() {
         viewModelScope.launch {
-            val movies = repository.loadMovies()
-            _mutableLiveDataMovies.value = movies
+            repository.loadMoviesFlow().collect { item -> _mutableLiveDataMovies.value = item }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.app.data.local.room
 
+import android.util.Log
 import com.app.data.local.room.entity.ActorEntity
 import com.app.domain.model.Genre
 import com.app.domain.model.Movie
@@ -9,29 +10,16 @@ import com.app.data.local.room.entity.MovieEntity
 import com.app.data.local.room.entity.relations.MovieDetailsWithGenresAndActors
 import com.app.domain.model.Actor
 import com.app.domain.model.MovieDetails
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 
 class RoomDataSource(private val db: AppRoomDatabase) : LocalDataSource {
 
-    override suspend fun loadMovies(): List<Movie> {
-        val moviesWithGenres = db.getMovieDao().getAll()
-        val moviesList = mutableListOf<Movie>()
-        for (movieDb in moviesWithGenres) {
-            val genres = db.getGenreDao().getByMovieId(movieDb.movieId.toLong())
-            moviesList += Movie(
-                id = movieDb.movieId,
-                pgAge = movieDb.pgAge,
-                title = movieDb.title,
-                genres = genres.map { genre ->
-                    Genre(genre.genreId, genre.name)
-                },
-                runningTime = movieDb.runningTime,
-                reviewCount = movieDb.reviewCount,
-                isLiked = movieDb.isLiked,
-                rating = movieDb.rating,
-                imageUrl = movieDb.imageUrl
-            )
-        }
-        return moviesList
+    override fun loadMoviesFlow(): Flow<List<Movie>> {
+        Log.d("MovieApp", "MoviesRepository: loadMoviesFlow")
+        return db.getMovieDao().getAllFlow().map { convertMovieEntityToMovie(it) }
     }
 
     override fun insertMovies(movieFromNetwork: List<Movie>) {
@@ -90,35 +78,85 @@ class RoomDataSource(private val db: AppRoomDatabase) : LocalDataSource {
     override suspend fun insertMovieDetails(movieFromNetwork: MovieDetails) {
         val genresList = mutableListOf<GenreEntity>()
         val actorsList = mutableListOf<ActorEntity>()
-        val movieEntity = MovieDetailsEntity(
-            movieDetailsId = movieFromNetwork.id,
-            pgAge = movieFromNetwork.pgAge,
-            title = movieFromNetwork.title,
-            runningTime = movieFromNetwork.runningTime,
-            reviewCount = movieFromNetwork.reviewCount,
-            isLiked = movieFromNetwork.isLiked,
-            rating = movieFromNetwork.rating,
-            imageUrl = movieFromNetwork.imageUrl,
-            storyLine = movieFromNetwork.storyLine
-        )
+        val movieEntity = toMovieDetailsEntity(movieFromNetwork)
         for (genre in movieFromNetwork.genres) {
-            genresList += GenreEntity(
-                genreId = genre.id,
-                name = genre.name,
-                movieId = movieFromNetwork.id,
-                movieDetailsId = movieFromNetwork.id
-            )
+            genresList += toGenreEntity(genre, movieFromNetwork.id)
         }
         for (actor in movieFromNetwork.actors) {
-            actorsList += ActorEntity(
-                actorId = actor.id,
-                name = actor.name,
-                movieDetailsId = movieFromNetwork.id,
-                imageUrl = actor.imageUrl
-            )
+            actorsList += toActorEntity(actor, movieFromNetwork.id)
         }
         db.getMovieDetailsDao().insert(movieEntity)
         db.getGenreDao().update(genresList)
         db.getActorDao().insertActors(actorsList)
     }
+
+    private fun toMovie(entity: MovieEntity): Movie = Movie(
+        id = entity.movieId,
+        title = entity.title,
+        pgAge = entity.pgAge,
+        genres = emptyList<Genre>(),
+        runningTime = entity.runningTime,
+        reviewCount = entity.reviewCount,
+        isLiked = entity.isLiked,
+        rating = entity.rating,
+        imageUrl = entity.imageUrl
+    )
+
+    private fun toMovieDetailsEntity(entity: MovieDetailsEntity): MovieDetails {
+        return MovieDetails(
+            id = entity.movieDetailsId,
+            title = entity.title,
+            pgAge = entity.pgAge,
+            genres = emptyList<Genre>(),
+            runningTime = entity.runningTime,
+            reviewCount = entity.reviewCount,
+            isLiked = entity.isLiked,
+            rating = entity.rating,
+            imageUrl = entity.imageUrl,
+            actors = emptyList(),
+            storyLine = entity.storyLine,
+        )
+    }
+
+    private fun toGenre(entity: GenreEntity): Genre = Genre(
+        id = entity.genreId,
+        name = entity.name
+    )
+
+    private fun toMovieDetailsEntity(movieDetails: MovieDetails): MovieDetailsEntity =
+        MovieDetailsEntity(
+            movieDetailsId = movieDetails.id,
+            pgAge = movieDetails.pgAge,
+            title = movieDetails.title,
+            runningTime = movieDetails.runningTime,
+            reviewCount = movieDetails.reviewCount,
+            isLiked = movieDetails.isLiked,
+            rating = movieDetails.rating,
+            imageUrl = movieDetails.imageUrl,
+            storyLine = movieDetails.storyLine
+        )
+
+    private fun toGenreEntity(genre: Genre, movieId: Int): GenreEntity = GenreEntity(
+        genreId = genre.id,
+        name = genre.name,
+        movieId = movieId,
+        movieDetailsId = movieId
+    )
+
+    private fun toActorEntity(actor: Actor, movieId: Int): ActorEntity = ActorEntity(
+        actorId = actor.id,
+        name = actor.name,
+        movieDetailsId = movieId,
+        imageUrl = actor.imageUrl
+    )
+
+    private suspend fun convertMovieEntityToMovie(moviesEntities: List<MovieEntity>): List<Movie> =
+        withContext(Dispatchers.IO) {
+            val movies: List<Movie> = moviesEntities.map { toMovie(it) }
+            movies.forEach { movie ->
+                movie.genres =
+                    db.getGenreDao().getByMovieId(movie.id.toLong()).map { toGenre(it) }
+            }
+            return@withContext movies
+        }
 }

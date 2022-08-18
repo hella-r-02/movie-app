@@ -32,7 +32,7 @@ class RefreshMoviesWorker(
         }
         runBlocking {
             val movies = movieRepository.loadMoviesFromApi()
-            movieRepository.insertMovieToDb(movies)
+            movieRepository.insertMoviesToDb(movies)
         }
         Log.e(TAG, "movies are refreshed")
         return Result.success()

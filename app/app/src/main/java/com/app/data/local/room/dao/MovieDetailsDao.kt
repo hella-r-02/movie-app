@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.app.data.local.room.entity.MovieDetailsEntity
-import com.app.data.local.room.entity.MovieEntity
 import com.app.data.local.room.entity.relations.MovieDetailsWithGenresAndActors
 
 @Dao
