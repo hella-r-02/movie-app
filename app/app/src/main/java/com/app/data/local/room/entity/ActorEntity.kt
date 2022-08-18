@@ -17,8 +17,7 @@ import androidx.room.PrimaryKey
 )
 
 data class ActorEntity(
-    @PrimaryKey
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "actorId")
     val actorId: Int,
     @ColumnInfo(name = "name")
     val name: String,
@@ -26,5 +25,8 @@ data class ActorEntity(
     val imageUrl: String?,
     @ColumnInfo(name = "movieDetailsId")
     val movieDetailsId: Int
-
-)
+){
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Int? = null
+}

@@ -23,8 +23,7 @@ import androidx.room.PrimaryKey
     ]
 )
 data class GenreEntity(
-    @PrimaryKey
-    @ColumnInfo(name = "id")
+    @ColumnInfo(name = "genreId")
     val genreId: Int,
     @ColumnInfo(name = "name")
     val name: String,
@@ -33,4 +32,8 @@ data class GenreEntity(
     val movieId: Int,
     @ColumnInfo(name = "movieDetailsId")
     val movieDetailsId: Int?
-)
+) {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Int? = null
+}

@@ -3,6 +3,7 @@ package com.app.data.local.room.dao
 import androidx.room.*
 import com.app.data.local.room.entity.MovieEntity
 import com.app.data.local.room.entity.relations.MovieWithGenres
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MovieDao {
@@ -19,5 +20,5 @@ interface MovieDao {
     fun getMoviesWithGenres(): List<MovieWithGenres>
 
     @Query("Select * from movies")
-    fun getAll(): List<MovieEntity>
+    fun getAllFlow(): Flow<List<MovieEntity>>
 }
