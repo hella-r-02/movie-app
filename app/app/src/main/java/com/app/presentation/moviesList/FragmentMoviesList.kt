@@ -1,7 +1,9 @@
 package com.app.presentation.moviesList
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,7 +50,16 @@ class FragmentMoviesList : Fragment() {
         viewModel.liveDataMovies.observe(
             this.viewLifecycleOwner
         ) { movies -> adapter.submitList(movies) }
+        viewModel.loadMoviesAsFlow()
+        viewModel.liveDataMovies.observe(viewLifecycleOwner, this::updateListOfMovies)
         viewModel.loadMovies()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun updateListOfMovies(newMoviesList: List<Movie>) {
+        Log.e("MoviesList","updateData")
+        adapter.submitList(newMoviesList)
+        adapter.notifyDataSetChanged()
     }
 
     private fun setAdapterForRecyclerView() {

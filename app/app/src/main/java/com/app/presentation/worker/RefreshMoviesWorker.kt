@@ -5,17 +5,16 @@ import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
 import android.util.Log
-import androidx.work.Worker
+import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.app.app.App
 import com.app.domain.MovieRepository
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class RefreshMoviesWorker(
     private val context: Context,
     workerParameters: WorkerParameters,
-) : Worker(context, workerParameters) {
+) : CoroutineWorker(context, workerParameters) {
 
     @Inject
     lateinit var movieRepository: MovieRepository
@@ -25,15 +24,14 @@ class RefreshMoviesWorker(
         injector.inject(this)
     }
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         if (!isOnline()) {
             Log.e(TAG, "Failed to refresh movies")
             return Result.failure()
         }
-        runBlocking {
-            val movies = movieRepository.loadMoviesFromApi()
-            movieRepository.insertMoviesToDb(movies)
-        }
+        val movies = movieRepository.loadMoviesFromApi()
+        movieRepository.insertMoviesToDb(movies)
+
         Log.e(TAG, "movies are refreshed")
         return Result.success()
     }

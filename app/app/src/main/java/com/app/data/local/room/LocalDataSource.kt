@@ -5,6 +5,7 @@ import com.app.domain.model.MovieDetails
 import kotlinx.coroutines.flow.Flow
 
 interface LocalDataSource {
+    suspend fun loadMovies(): List<Movie>
     fun loadMoviesFlow(): Flow<List<Movie>>
 
     fun insertMovies(movieFromNetwork: List<Movie>)

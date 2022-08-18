@@ -14,29 +14,41 @@ class MovieRepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val dataSource: RetrofitDataSource
 ) : MovieRepository {
+    override suspend fun loadMovies(): List<Movie> = withContext(Dispatchers.IO) {
+        val movieDB = localDataSource.loadMovies()
+        return@withContext if (movieDB.isEmpty()) {
+            Log.e("MovieRepository", "loadMoviesFromNetwork")
+            val movieFromNetwork = dataSource.loadMovies()
+            localDataSource.insertMovies(movieFromNetwork)
+            movieFromNetwork
+        } else {
+            Log.e("MovieRepository", "loadMoviesFromDb")
+            movieDB
+        }
+    }
+
     override suspend fun loadMoviesFlow(): Flow<List<Movie>> = withContext(Dispatchers.IO) {
-        Log.d("MovieApp", "MoviesRepository: load movies")
         return@withContext localDataSource.loadMoviesFlow()
     }
 
     override suspend fun loadMovie(movieId: Int): MovieDetails? {
         val movieDb = localDataSource.loadMovieDetails(movieId)
         return if (movieDb == null) {
-            println("FROM INTERNET")
             val movieFromNetwork = dataSource.loadMovie(movieId)
             localDataSource.insertMovieDetails(movieFromNetwork)
             movieFromNetwork
         } else {
-            println("FROM DB")
             movieDb
         }
     }
 
-    override suspend fun loadMoviesFromApi(): List<Movie> {
-        return dataSource.loadMovies()
+    override suspend fun loadMoviesFromApi(): List<Movie> = withContext(Dispatchers.IO) {
+        Log.e("MovieRep", "loadMoviesFromApi()")
+        return@withContext dataSource.loadMovies()
     }
 
-    override suspend fun insertMoviesToDb(movies: List<Movie>) {
+    override suspend fun insertMoviesToDb(movies: List<Movie>) = withContext(Dispatchers.IO) {
+        Log.e("MovieRep", "insertMoviesToDb")
         localDataSource.insertMovies(movies)
     }
 }
