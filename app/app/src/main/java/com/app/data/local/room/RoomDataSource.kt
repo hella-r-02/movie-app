@@ -16,6 +16,27 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.withContext
 
 class RoomDataSource(private val db: AppRoomDatabase) : LocalDataSource {
+    override suspend fun loadMovies(): List<Movie> {
+        val moviesWithGenres = db.getMovieDao().getAll()
+        val moviesList = mutableListOf<Movie>()
+        for (movieDb in moviesWithGenres) {
+            val genres = db.getGenreDao().getByMovieId(movieDb.movieId.toLong())
+            moviesList += Movie(
+                id = movieDb.movieId,
+                pgAge = movieDb.pgAge,
+                title = movieDb.title,
+                genres = genres.map { genre ->
+                    Genre(genre.genreId, genre.name)
+                },
+                runningTime = movieDb.runningTime,
+                reviewCount = movieDb.reviewCount,
+                isLiked = movieDb.isLiked,
+                rating = movieDb.rating,
+                imageUrl = movieDb.imageUrl
+            )
+        }
+        return moviesList
+    }
 
     override fun loadMoviesFlow(): Flow<List<Movie>> {
         Log.d("MovieApp", "MoviesRepository: loadMoviesFlow")

@@ -14,6 +14,19 @@ class MovieRepositoryImpl(
     private val localDataSource: LocalDataSource,
     private val dataSource: RetrofitDataSource
 ) : MovieRepository {
+    override suspend fun loadMovies(): List<Movie> = withContext(Dispatchers.IO) {
+        val movieDB = localDataSource.loadMovies()
+        return@withContext if (movieDB.isEmpty()) {
+            Log.e("MovieRepository", "loadMoviesFromNetwork")
+            val movieFromNetwork = dataSource.loadMovies()
+            localDataSource.insertMovies(movieFromNetwork)
+            movieFromNetwork
+        } else {
+            Log.e("MovieRepository", "loadMoviesFromDb")
+            movieDB
+        }
+    }
+
     override suspend fun loadMoviesFlow(): Flow<List<Movie>> = withContext(Dispatchers.IO) {
         return@withContext localDataSource.loadMoviesFlow()
     }

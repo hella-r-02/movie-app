@@ -31,7 +31,6 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initWorkManager()
         setContentView(R.layout.activity_main)
         (applicationContext as App).appComponent.inject(this)
         if (savedInstanceState == null) {
@@ -42,6 +41,7 @@ class MainActivity : AppCompatActivity(),
                     .commit()
             }
         }
+        initWorkManager()
     }
 
     private fun initWorkManager() {

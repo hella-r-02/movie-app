@@ -20,5 +20,8 @@ interface MovieDao {
     fun getMoviesWithGenres(): List<MovieWithGenres>
 
     @Query("Select * from movies")
+    fun getAll(): List<MovieEntity>
+
+    @Query("Select * from movies")
     fun getAllFlow(): Flow<List<MovieEntity>>
 }
