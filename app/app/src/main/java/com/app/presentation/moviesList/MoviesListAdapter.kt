@@ -51,6 +51,7 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
         fun onBind(movie: Movie, onClickCard: (item: Movie) -> Unit) {
             Glide.with(context)
                 .load(movie.imageUrl)
+                .placeholder(R.drawable.ic_movie_poster)
                 .into(imageMovie)
             pg.text = movie.pgAge.toString() + "+"
             name.text = movie.title
