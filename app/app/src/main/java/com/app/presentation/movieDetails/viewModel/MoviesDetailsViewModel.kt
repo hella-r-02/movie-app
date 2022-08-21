@@ -21,4 +21,10 @@ class MoviesDetailsViewModel(private val repository: MovieRepository) : ViewMode
             }
         }
     }
+
+    fun setNullMovie() {
+        viewModelScope.launch {
+            _mutableLiveDataState.value = MovieState.DefaultState(null)
+        }
+    }
 }

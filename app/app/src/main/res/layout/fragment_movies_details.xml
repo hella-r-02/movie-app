@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.movieDetails.FragmentMoviesDetails">
@@ -9,6 +10,16 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ProgressBar
+            android:id="@+id/pb_loading_movie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/progress_bar_margin_top"
+            android:indeterminate="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/gl_start"
@@ -30,9 +41,9 @@
             android:layout_height="298dp"
             android:contentDescription="@string/movie_img"
             android:scaleType="centerCrop"
-            tools:src="@drawable/img_movie"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/img_movie" />
 
         <LinearLayout
             android:id="@+id/ll_back_button"
@@ -73,9 +84,9 @@
                 android:layout_height="match_parent"
                 android:fontFamily="@font/roboto_black"
                 android:gravity="center"
-                tools:text="@string/pg"
                 android:textColor="#FFFFFF"
-                android:textSize="12sp" />
+                android:textSize="12sp"
+                tools:text="@string/pg" />
         </androidx.cardview.widget.CardView>
 
         <TextView
@@ -91,78 +102,78 @@
             android:shadowDx="0"
             android:shadowDy="1"
             android:shadowRadius="12"
-            tools:text="@string/movie_name"
             android:textColor="@color/movie_name_color"
             android:textSize="40sp"
             app:layout_constraintEnd_toStartOf="@id/gl_end"
             app:layout_constraintStart_toEndOf="@+id/gl_start"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/movie_name" />
 
         <TextView
             android:id="@+id/tv_genre"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:fontFamily="@font/roboto_light"
-            tools:text="@string/genre"
             android:textColor="@color/pink"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/gl_end"
             app:layout_constraintStart_toEndOf="@+id/gl_start"
-            app:layout_constraintTop_toBottomOf="@id/tv_movie_name" />
+            app:layout_constraintTop_toBottomOf="@id/tv_movie_name"
+            tools:text="@string/genre" />
 
-        <ImageView
-            android:id="@+id/iv_star_1"
+        <LinearLayout
+            android:id="@+id/ll_stars"
             android:layout_width="wrap_content"
             android:layout_height="12dp"
             android:layout_marginTop="@dimen/space_1x"
-            android:src="@drawable/ic_star"
+            android:visibility="gone"
             app:layout_constraintStart_toEndOf="@+id/gl_start"
-            app:layout_constraintTop_toBottomOf="@id/tv_genre"
-            app:tint="@color/pink" />
+            app:layout_constraintTop_toBottomOf="@id/tv_genre">
 
-        <ImageView
-            android:id="@+id/iv_star_2"
-            android:layout_width="wrap_content"
-            android:layout_height="12dp"
-            android:layout_marginStart="@dimen/star_margin_start"
-            android:layout_marginTop="@dimen/space_1x"
-            android:src="@drawable/ic_star"
-            app:layout_constraintStart_toEndOf="@+id/iv_star_1"
-            app:layout_constraintTop_toBottomOf="@id/tv_genre"
-            app:tint="@color/pink" />
+            <ImageView
+                android:id="@+id/iv_star_1"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_weight="1"
+                android:src="@drawable/ic_star"
+                app:tint="@color/pink" />
 
-        <ImageView
-            android:id="@+id/iv_star_3"
-            android:layout_width="wrap_content"
-            android:layout_height="12dp"
-            android:layout_marginStart="@dimen/star_margin_start"
-            android:layout_marginTop="@dimen/space_1x"
-            android:src="@drawable/ic_star"
-            app:layout_constraintStart_toEndOf="@+id/iv_star_2"
-            app:layout_constraintTop_toBottomOf="@id/tv_genre"
-            app:tint="@color/pink" />
+            <ImageView
+                android:id="@+id/iv_star_2"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="@dimen/star_margin_start"
+                android:layout_weight="1"
+                android:src="@drawable/ic_star"
+                app:tint="@color/pink" />
 
-        <ImageView
-            android:id="@+id/iv_star_4"
-            android:layout_width="wrap_content"
-            android:layout_height="12dp"
-            android:layout_marginStart="@dimen/star_margin_start"
-            android:layout_marginTop="@dimen/space_1x"
-            android:src="@drawable/ic_star"
-            app:layout_constraintStart_toEndOf="@+id/iv_star_3"
-            app:layout_constraintTop_toBottomOf="@id/tv_genre"
-            app:tint="@color/pink" />
+            <ImageView
+                android:id="@+id/iv_star_3"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="@dimen/star_margin_start"
+                android:layout_weight="1"
+                android:src="@drawable/ic_star"
+                app:tint="@color/pink" />
 
-        <ImageView
-            android:id="@+id/iv_star_5"
-            android:layout_width="wrap_content"
-            android:layout_height="12dp"
-            android:layout_marginStart="@dimen/star_margin_start"
-            android:layout_marginTop="@dimen/space_1x"
-            android:src="@drawable/ic_star"
-            app:layout_constraintStart_toEndOf="@+id/iv_star_4"
-            app:layout_constraintTop_toBottomOf="@id/tv_genre"
-            app:tint="@color/gray" />
+            <ImageView
+                android:id="@+id/iv_star_4"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="@dimen/star_margin_start"
+                android:layout_weight="1"
+                android:src="@drawable/ic_star"
+                app:tint="@color/pink" />
+
+            <ImageView
+                android:id="@+id/iv_star_5"
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="@dimen/star_margin_start"
+                android:layout_weight="1"
+                android:src="@drawable/ic_star"
+                app:tint="@color/gray" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_review"
@@ -170,18 +181,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="9dp"
             android:fontFamily="@font/roboto_black"
-            tools:text="@string/review"
             android:textColor="@color/gray"
             android:textSize="14sp"
-            app:layout_constraintStart_toEndOf="@+id/iv_star_5"
-            app:layout_constraintTop_toBottomOf="@id/tv_genre" />
+            android:visibility="gone"
+            app:layout_constraintStart_toEndOf="@+id/ll_stars"
+            app:layout_constraintTop_toBottomOf="@id/tv_genre"
+            tools:text="@string/review" />
 
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/barrier_review"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="iv_star_5, tv_review" />
+            app:constraint_referenced_ids="ll_stars, tv_review" />
 
         <TextView
             android:id="@+id/tv_storyline_title"
@@ -192,6 +204,7 @@
             android:text="@string/storyline_title"
             android:textColor="#ECECEC"
             android:textSize="14sp"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/gl_end"
             app:layout_constraintStart_toEndOf="@+id/gl_start"
             app:layout_constraintTop_toBottomOf="@id/barrier_review" />
@@ -204,12 +217,12 @@
             android:gravity="center_vertical"
             android:lineSpacingExtra="4sp"
             android:paddingTop="24dp"
-            tools:text="@string/storyline"
             android:textColor="@color/white"
             android:textSize="14sp"
             app:layout_constraintEnd_toStartOf="@id/gl_end"
             app:layout_constraintStart_toEndOf="@+id/gl_start"
-            app:layout_constraintTop_toBottomOf="@id/tv_storyline_title" />
+            app:layout_constraintTop_toBottomOf="@id/tv_storyline_title"
+            tools:text="@string/storyline" />
 
         <TextView
             android:id="@+id/tv_cast_title"
@@ -226,6 +239,7 @@
             android:textColor="@color/cast_text_color"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintEnd_toStartOf="@id/gl_end"
             app:layout_constraintStart_toEndOf="@+id/gl_start"
             app:layout_constraintTop_toBottomOf="@id/tv_storyline" />

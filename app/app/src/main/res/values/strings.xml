@@ -13,4 +13,5 @@
     <string name="movies_list">Movies list</string>
     <string name="name_movie_card">Avengers: End Game</string>
     <string name="duration_movie">137 min</string>
+    <string name="error_loading_dialog">Error loading movies. Turn on the Internet and try again</string>
 </resources>

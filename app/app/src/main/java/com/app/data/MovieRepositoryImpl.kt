@@ -9,6 +9,7 @@ import com.app.data.local.room.LocalDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 
 class MovieRepositoryImpl(
     private val localDataSource: LocalDataSource,
@@ -18,9 +19,13 @@ class MovieRepositoryImpl(
         val movieDB = localDataSource.loadMovies()
         return@withContext if (movieDB.isEmpty()) {
             Log.e("MovieRepository", "loadMoviesFromNetwork")
-            val movieFromNetwork = dataSource.loadMovies()
-            localDataSource.insertMovies(movieFromNetwork)
-            movieFromNetwork
+            try {
+                val movieFromNetwork = dataSource.loadMovies()
+                localDataSource.insertMovies(movieFromNetwork)
+                movieFromNetwork
+            } catch (ex: Exception) {
+                emptyList()
+            }
         } else {
             Log.e("MovieRepository", "loadMoviesFromDb")
             movieDB
@@ -34,9 +39,13 @@ class MovieRepositoryImpl(
     override suspend fun loadMovie(movieId: Int): MovieDetails? {
         val movieDb = localDataSource.loadMovieDetails(movieId)
         return if (movieDb == null) {
-            val movieFromNetwork = dataSource.loadMovie(movieId)
-            localDataSource.insertMovieDetails(movieFromNetwork)
-            movieFromNetwork
+            try {
+                val movieFromNetwork = dataSource.loadMovie(movieId)
+                localDataSource.insertMovieDetails(movieFromNetwork)
+                movieFromNetwork
+            } catch (ex: Exception) {
+                null
+            }
         } else {
             movieDb
         }
