@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity(),
             supportFragmentManager.apply {
                 beginTransaction()
                     .replace(R.id.frameLayoutContainer, FragmentMoviesList())
-                    .addToBackStack(null)
                     .commit()
             }
         }

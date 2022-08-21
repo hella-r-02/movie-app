@@ -8,8 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.core.content.ContextCompat
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
@@ -50,37 +50,44 @@ class FragmentMoviesDetails : Fragment() {
         val args = this.arguments
         movieId = args?.get("movie_id") as Int
 
-        val view = inflater.inflate(R.layout.fragment_movies_details, container, false)
-        val backButton = view.findViewById<LinearLayout>(R.id.ll_back_button)
-        backButton.setOnClickListener {
-            onBackClickListener?.onClickBack()
-        }
-        return view
+        return inflater.inflate(R.layout.fragment_movies_details, container, false)
     }
 
     @SuppressLint("SetTextI18n", "ResourceAsColor")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentMoviesDetailsBinding.bind(view)
+        viewModel.loadMovie(movieId!!)
         viewModel.liveDataState.observe(
             this.viewLifecycleOwner, this::setState
         )
-        viewModel.loadMovie(movieId!!)
+        binding.llBackButton.setOnClickListener {
+            onBackClickListener?.onClickBack()
+        }
     }
 
     private fun setState(state: MovieState) {
         when (state) {
             is DefaultState -> state.movie?.let { loadData(it) }
-            is ErrorState -> Toast.makeText(
-                requireContext(),
-                "Movie loading error",
-                Toast.LENGTH_LONG
-            ).show()
+            is ErrorState -> showErrorDialog()
         }
+    }
+
+    private fun showErrorDialog() {
+        binding.pbLoadingMovie.visibility = View.INVISIBLE
+        AlertDialog.Builder(
+            ContextThemeWrapper(requireContext(), R.style.AlertDialogCustom)
+        )
+            .setCancelable(false)
+            .setMessage(R.string.error_loading_dialog)
+            .setNegativeButton("ok") { _, _ -> onBackClickListener?.onClickBack() }
+            .show()
     }
 
     @SuppressLint("SetTextI18n")
     private fun loadData(movie: MovieDetails) {
+        setVisibleTitle()
+        binding.pbLoadingMovie.visibility = View.GONE
         setAdapterForRecyclerView(movie = movie)
         Glide.with(requireView())
             .load(movie.imageUrl)
@@ -95,6 +102,17 @@ class FragmentMoviesDetails : Fragment() {
         if (movie.actors.isEmpty()) {
             binding.tvCastTitle.visibility = View.INVISIBLE
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.setNullMovie()
+    }
+
+    private fun setVisibleTitle() {
+        binding.llStars.visibility = View.VISIBLE
+        binding.tvStorylineTitle.visibility = View.VISIBLE
+        binding.tvCastTitle.visibility = View.VISIBLE
     }
 
     private fun loadStars(movie: MovieDetails) {

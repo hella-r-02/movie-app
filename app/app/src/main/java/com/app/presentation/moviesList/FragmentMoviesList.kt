@@ -3,10 +3,11 @@ package com.app.presentation.moviesList
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.view.ContextThemeWrapper
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,19 +48,25 @@ class FragmentMoviesList : Fragment() {
         binding = FragmentMoviesListBinding.bind(view)
         super.onViewCreated(view, savedInstanceState)
         setAdapterForRecyclerView()
-        viewModel.liveDataMovies.observe(
-            this.viewLifecycleOwner
-        ) { movies -> adapter.submitList(movies) }
         viewModel.loadMoviesAsFlow()
+        viewModel.liveDataIsError.observe(viewLifecycleOwner, this::errorLoadingMovies)
         viewModel.liveDataMovies.observe(viewLifecycleOwner, this::updateListOfMovies)
         viewModel.loadMovies()
     }
 
+    private fun errorLoadingMovies(isError: Boolean) {
+        if (isError) {
+            showErrorDialog()
+        }
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     private fun updateListOfMovies(newMoviesList: List<Movie>) {
-        Log.e("MoviesList","updateData")
-        adapter.submitList(newMoviesList)
-        adapter.notifyDataSetChanged()
+        if (newMoviesList.isNotEmpty()) {
+            binding.pbLoadingMovies.visibility = View.GONE
+            adapter.submitList(newMoviesList)
+            adapter.notifyDataSetChanged()
+        }
     }
 
     private fun setAdapterForRecyclerView() {
@@ -69,6 +76,16 @@ class FragmentMoviesList : Fragment() {
         val layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         binding.rvMovies.layoutManager = layoutManager
         binding.rvMovies.adapter = adapter
+    }
+
+    private fun showErrorDialog() {
+        binding.pbLoadingMovies.visibility = View.INVISIBLE
+        AlertDialog.Builder(
+            ContextThemeWrapper(requireContext(), R.style.AlertDialogCustom)
+        )
+            .setCancelable(false)
+            .setMessage(R.string.error_loading_dialog)
+            .show()
     }
 
     interface MoviesListItemClickListener {
