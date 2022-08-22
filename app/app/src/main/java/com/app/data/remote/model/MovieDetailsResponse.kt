@@ -11,7 +11,7 @@ class MovieDetailsResponse(
     @SerialName("id") val id: Int,
     @SerialName("overview") val overview: String?,
     @SerialName("popularity") val popularity: Double,
-    @SerialName("revenue") val revenue: Int,
+    @SerialName("vote_count") val vote_count: Int,
     @SerialName("runtime") val runtime: Int?,
     @SerialName("title") val title: String
 )

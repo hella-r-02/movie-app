@@ -97,7 +97,8 @@ class FragmentMoviesDetails : Fragment() {
         binding.tvMovieName.text = movie.title
         binding.tvGenre.text = movie.genres.joinToString { it.name }
         loadStars(movie = movie)
-        binding.tvReview.text = movie.reviewCount.toString() + " Reviews"
+        binding.tvReview.text =
+            movie.reviewCount.toString() + if (movie.reviewCount > 1) " reviews" else " review"
         binding.tvStoryline.text = movie.storyLine
         if (movie.actors.isEmpty()) {
             binding.tvCastTitle.visibility = View.INVISIBLE
@@ -113,6 +114,7 @@ class FragmentMoviesDetails : Fragment() {
         binding.llStars.visibility = View.VISIBLE
         binding.tvStorylineTitle.visibility = View.VISIBLE
         binding.tvCastTitle.visibility = View.VISIBLE
+        binding.tvReview.visibility = View.VISIBLE
     }
 
     private fun loadStars(movie: MovieDetails) {

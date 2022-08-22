@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="20dp"
     android:layout_marginStart="6dp"
     android:layout_marginEnd="6dp"
+    android:layout_marginBottom="20dp"
     app:cardBackgroundColor="@android:color/transparent"
     app:cardCornerRadius="8dp">
 
@@ -21,9 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:foreground="@drawable/image_movie_card_tint"
-            app:layout_constraintDimensionRatio="1:1.5"
             android:outlineProvider="background"
             android:scaleType="centerCrop"
+            app:layout_constraintDimensionRatio="1:1.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:shapeAppearanceOverlay="@style/roundedImageView"
@@ -69,12 +69,15 @@
         </androidx.cardview.widget.CardView>
 
         <ImageView
+            android:id="@+id/iv_like"
             android:layout_width="16dp"
             android:layout_height="14dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/ic_like"
             app:layout_constraintEnd_toStartOf="@+id/gl_end"
-            app:layout_constraintTop_toBottomOf="@id/gl_top" />
+            app:layout_constraintTop_toBottomOf="@id/gl_top"
+            app:tint="@color/gray"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/tv_genre"
@@ -154,6 +157,7 @@
             android:id="@+id/tv_review"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
             android:layout_marginBottom="18dp"
             android:fontFamily="@font/roboto_black"
             android:textColor="@color/gray"

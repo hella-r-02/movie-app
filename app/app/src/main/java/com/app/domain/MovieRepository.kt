@@ -10,4 +10,5 @@ interface MovieRepository {
     suspend fun loadMovie(movieId: Int): MovieDetails?
     suspend fun loadMoviesFromApi(): List<Movie>
     suspend fun insertMoviesToDb(movies: List<Movie>)
+    suspend fun updateIsLikeMovie(movie: Movie)
 }

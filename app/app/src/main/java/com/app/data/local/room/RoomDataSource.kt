@@ -1,6 +1,5 @@
 package com.app.data.local.room
 
-import android.util.Log
 import com.app.data.local.room.entity.ActorEntity
 import com.app.domain.model.Genre
 import com.app.domain.model.Movie
@@ -39,7 +38,6 @@ class RoomDataSource(private val db: AppRoomDatabase) : LocalDataSource {
     }
 
     override fun loadMoviesFlow(): Flow<List<Movie>> {
-        Log.d("MovieApp", "MoviesRepository: loadMoviesFlow")
         return db.getMovieDao().getAllFlow().map { convertMovieEntityToMovie(it) }
     }
 
@@ -111,11 +109,15 @@ class RoomDataSource(private val db: AppRoomDatabase) : LocalDataSource {
         db.getActorDao().insertActors(actorsList)
     }
 
+    override suspend fun updateLikeForMovie(movie: Movie) {
+        db.getMovieDao().changeIsLike(toMovieEntity(movie))
+    }
+
     private fun toMovie(entity: MovieEntity): Movie = Movie(
         id = entity.movieId,
         title = entity.title,
         pgAge = entity.pgAge,
-        genres = emptyList<Genre>(),
+        genres = emptyList(),
         runningTime = entity.runningTime,
         reviewCount = entity.reviewCount,
         isLiked = entity.isLiked,
@@ -123,19 +125,16 @@ class RoomDataSource(private val db: AppRoomDatabase) : LocalDataSource {
         imageUrl = entity.imageUrl
     )
 
-    private fun toMovieDetailsEntity(entity: MovieDetailsEntity): MovieDetails {
-        return MovieDetails(
-            id = entity.movieDetailsId,
-            title = entity.title,
-            pgAge = entity.pgAge,
-            genres = emptyList<Genre>(),
-            runningTime = entity.runningTime,
-            reviewCount = entity.reviewCount,
-            isLiked = entity.isLiked,
-            rating = entity.rating,
-            imageUrl = entity.imageUrl,
-            actors = emptyList(),
-            storyLine = entity.storyLine,
+    private fun toMovieEntity(movie: Movie): MovieEntity {
+        return MovieEntity(
+            movieId = movie.id,
+            title = movie.title,
+            pgAge = movie.pgAge,
+            runningTime = movie.runningTime,
+            reviewCount = movie.reviewCount,
+            isLiked = movie.isLiked,
+            rating = movie.rating,
+            imageUrl = movie.imageUrl,
         )
     }
 

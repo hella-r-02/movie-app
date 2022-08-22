@@ -13,4 +13,6 @@ interface LocalDataSource {
     suspend fun loadMovieDetails(id: Int): MovieDetails?
 
     suspend fun insertMovieDetails(movieFromNetwork: MovieDetails)
+
+    suspend fun updateLikeForMovie(movie: Movie)
 }

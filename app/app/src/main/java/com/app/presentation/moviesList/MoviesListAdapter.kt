@@ -2,6 +2,7 @@ package com.app.presentation.moviesList
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +17,10 @@ import com.app.R
 import com.app.domain.model.Movie
 import com.bumptech.glide.Glide
 
-class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
+class MoviesListAdapter(
+    private val onClickCard: (item: Movie) -> Unit,
+    private val onClickLike: (it: Movie) -> Unit,
+) :
     ListAdapter<Movie, MoviesListAdapter.DataViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DataViewHolder {
@@ -28,7 +32,10 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
 
     override fun onBindViewHolder(holder: DataViewHolder, position: Int) {
         val item = getItem(position)
-        holder.onBind(item, onClickCard)
+        holder.onBind(
+            item, onClickCard,
+            onClickLike
+        )
     }
 
     class DataViewHolder(itemView: View) :
@@ -38,6 +45,7 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
         private val name: TextView = itemView.findViewById(R.id.tv_movie_name)
         private val review: TextView = itemView.findViewById(R.id.tv_review)
         private val duration: TextView = itemView.findViewById(R.id.tv_duration_movie)
+        private val like: ImageView = itemView.findViewById(R.id.iv_like)
         private val genre: TextView = itemView.findViewById(R.id.tv_genre)
         private val stars: List<ImageView> = listOf(
             itemView.findViewById(R.id.iv_star_1),
@@ -48,14 +56,19 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
         )
 
         @SuppressLint("SetTextI18n")
-        fun onBind(movie: Movie, onClickCard: (item: Movie) -> Unit) {
+        fun onBind(
+            movie: Movie,
+            onClickCard: (item: Movie) -> Unit,
+            onClickLike: (it: Movie) -> Unit
+        ) {
             Glide.with(context)
                 .load(movie.imageUrl)
                 .placeholder(R.drawable.ic_movie_poster)
                 .into(imageMovie)
             pg.text = movie.pgAge.toString() + "+"
             name.text = movie.title
-            review.text = movie.reviewCount.toString() + " reviews"
+            review.text =
+                movie.reviewCount.toString() + if (movie.reviewCount > 1) " reviews" else " review"
             duration.text = movie.runningTime.toString() + " min"
             genre.text = movie.genres.joinToString { it.name }
             stars.forEachIndexed { index, star ->
@@ -66,9 +79,24 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
                     )
                 )
             }
+            setColorLike(movie = movie)
             itemView.setOnClickListener {
                 onClickCard(movie)
             }
+            like.setOnClickListener {
+                setColorLike(movie = movie)
+                onClickLike(movie)
+                Log.e("ListAdapter", "like")
+            }
+        }
+
+        private fun setColorLike(movie: Movie) {
+            val colorId = if (movie.isLiked) R.color.pink else R.color.gray
+            ImageViewCompat.setImageTintList(
+                like, ColorStateList.valueOf(
+                    ContextCompat.getColor(like.context, colorId)
+                )
+            )
         }
 
         private val RecyclerView.ViewHolder.context
