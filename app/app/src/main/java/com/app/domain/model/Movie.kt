@@ -9,7 +9,7 @@ class Movie(
     var genres: List<Genre>,
     val runningTime: Int,
     val reviewCount: Int,
-    val isLiked: Boolean,
+    var isLiked: Boolean,
     val rating: Int,
     val imageUrl: String,
 ) : Serializable

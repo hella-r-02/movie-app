@@ -31,6 +31,11 @@ class MoviesListViewModel(
                 _mutableLiveDataMovies.value = repository.loadMovies()
             }
         }
+    }
 
+    fun updateLike(movie: Movie) {
+        viewModelScope.launch {
+            repository.updateIsLikeMovie(movie)
+        }
     }
 }

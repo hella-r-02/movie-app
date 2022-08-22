@@ -3,6 +3,7 @@ package com.app.presentation.moviesList
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,9 +71,9 @@ class FragmentMoviesList : Fragment() {
     }
 
     private fun setAdapterForRecyclerView() {
-        adapter = MoviesListAdapter { movieData ->
-            itemClickListener?.onMovieSelected(movieData)
-        }
+        adapter = MoviesListAdapter({ item -> itemClickListener?.onMovieSelected(item) }, { item ->
+            onClickLike(item)
+        })
         val layoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         binding.rvMovies.layoutManager = layoutManager
         binding.rvMovies.adapter = adapter
@@ -86,6 +87,12 @@ class FragmentMoviesList : Fragment() {
             .setCancelable(false)
             .setMessage(R.string.error_loading_dialog)
             .show()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun onClickLike(movie: Movie) {
+        Log.e("MovieList", "like")
+        viewModel.updateLike(movie)
     }
 
     interface MoviesListItemClickListener {

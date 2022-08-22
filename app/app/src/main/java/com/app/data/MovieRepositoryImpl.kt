@@ -1,6 +1,5 @@
 package com.app.data
 
-import android.util.Log
 import com.app.data.remote.RetrofitDataSource
 import com.app.domain.MovieRepository
 import com.app.domain.model.Movie
@@ -17,8 +16,7 @@ class MovieRepositoryImpl(
 ) : MovieRepository {
     override suspend fun loadMovies(): List<Movie> = withContext(Dispatchers.IO) {
         val movieDB = localDataSource.loadMovies()
-        return@withContext if (movieDB.isEmpty()) {
-            Log.e("MovieRepository", "loadMoviesFromNetwork")
+        return@withContext movieDB.ifEmpty {
             try {
                 val movieFromNetwork = dataSource.loadMovies()
                 localDataSource.insertMovies(movieFromNetwork)
@@ -26,9 +24,6 @@ class MovieRepositoryImpl(
             } catch (ex: Exception) {
                 emptyList()
             }
-        } else {
-            Log.e("MovieRepository", "loadMoviesFromDb")
-            movieDB
         }
     }
 
@@ -52,12 +47,15 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun loadMoviesFromApi(): List<Movie> = withContext(Dispatchers.IO) {
-        Log.e("MovieRep", "loadMoviesFromApi()")
         return@withContext dataSource.loadMovies()
     }
 
     override suspend fun insertMoviesToDb(movies: List<Movie>) = withContext(Dispatchers.IO) {
-        Log.e("MovieRep", "insertMoviesToDb")
         localDataSource.insertMovies(movies)
+    }
+
+    override suspend fun updateIsLikeMovie(movie: Movie) {
+        movie.isLiked = !movie.isLiked
+        localDataSource.updateLikeForMovie(movie)
     }
 }

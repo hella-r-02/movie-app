@@ -24,4 +24,7 @@ interface MovieDao {
 
     @Query("Select * from movies")
     fun getAllFlow(): Flow<List<MovieEntity>>
+
+    @Update
+    fun changeIsLike(movieEntity: MovieEntity)
 }
